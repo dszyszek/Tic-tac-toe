@@ -74,8 +74,6 @@ function cantClick(param3){
 
         if(param3.value != "clicked"){return boxFunc()}
         else{output2.innerHTML = "You cant click the same box twice";}
-    
-  
 }
 
 function winLogic(){
@@ -123,20 +121,20 @@ function drawCheck(){
 
 function end(param2){
     if(count2==100){
-    for(var z=0;z<boxCou.length;z++){
-        boxCou[z].onclick = function(){output1.innerHTML = "Game is over now, you can't click anymore!";}
-    }
+    boxCou.forEach(z => z.onclick = function(){output1.innerHTML = "Game is over now, you can't click anymore!";}
+    )
    // console.log("no pass!")
     }
 }
 restart.onclick = restartFunc;
 
 function restartFunc(){
-    for(var m=0;m<boxCou.length;m++){
-    boxCou[m].style.background = "bisque";
-        boxCou[m].value = null;
+    boxCou.forEach(m =>
+    (m.style.background = "bisque",
+        m.value = null,
        // console.log(boxCou.value);
-    }
+	   m.onclick = function(){start();})
+	)
     output3.innerHTML = "";
     count2 = 0;
     output2.innerHTML = "";
@@ -144,16 +142,11 @@ output1.innerHTML = "";
        // console.log(output3.innerHTML);
 
     //console.log(count2);
-    
-    for(var z=0;z<boxCou.length;z++){
-        boxCou[z].onclick = function(){start();}
-    }
+
     if(count%2==0){ output1.innerHTML = "Cross starts!";}
 else{ output1.innerHTML = "Circle starts!";}
     
 }
-
-
 
 resScore.onclick = function(){
     countCross = 0;
