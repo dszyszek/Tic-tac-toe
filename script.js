@@ -15,7 +15,7 @@ var top1 = document.querySelector(".top1");
 var restart = document.querySelector(".restart");
 var resScore = document.querySelector(".restartScore");
 
-buttonStart.onclick = function(){container.style.display = "block";
+buttonStart.addEventListener('click',function(){container.style.display = "block";
                                 info.style.display = "block";
                                 buttonStart.style.display = "none";
                                 var topText = document.querySelector(".topText");
@@ -27,7 +27,7 @@ buttonStart.onclick = function(){container.style.display = "block";
                                 top1.insertBefore(result,top1.lastChild.nextSibling);
                                 
                                  result.innerHTML = "Current result: <br> 0 - 0"
-                                }
+                                })
 
 if(count%2==0){ output1.innerHTML = "Cross starts!";}
 else{ output1.innerHTML = "Circle starts!";}
@@ -54,7 +54,7 @@ output2.innerHTML = "";
 }
 
 function boxFunc(paramBox){
-    count2 ++
+    count2 ++;
    // console.log(count2);
     if(count%2==0){
 
@@ -126,21 +126,22 @@ function end(param2){
    // console.log("no pass!")
     }
 }
-restart.onclick = restartFunc;
+restart.addEventListener('click',restartFunc);
 
 function restartFunc(){
     boxCou.forEach(m =>
     (m.style.background = "bisque",
-        m.value = null,
+        m.value = null
        // console.log(boxCou.value);
-	   m.onclick = function(){start();})
-	)
+	))
     output3.innerHTML = "";
     count2 = 0;
     output2.innerHTML = "";
 output1.innerHTML = "";
        // console.log(output3.innerHTML);
-
+	boxCou.forEach(z => z.onclick = start) //tutaj onclick specjalnie, bo po użyciu addEventListener, 'restart' nie działa poprawnie (można klikać pola nawet po zakończeniu gry)
+	
+	
     //console.log(count2);
 
     if(count%2==0){ output1.innerHTML = "Cross starts!";}
