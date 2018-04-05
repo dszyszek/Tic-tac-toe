@@ -2,8 +2,6 @@ var output1 = document.querySelector(".output1");
 var output2 = document.querySelector(".output2");
 var boxCou = document.querySelectorAll(".box");
 var count = Math.floor(Math.random()*100);
-var circle = 'url("img/circle.png") 0% 0% / 100%';
-var cross = 'url("img/x.png") 0% 0% / 100%';
 var output3 = document.querySelector(".output3");
 var count2 = 0;
 var buttonStart = document.querySelector(".starting");
@@ -14,13 +12,13 @@ var countCircle = 0;
 var top1 = document.querySelector(".top1");
 var restart = document.querySelector(".restart");
 var resScore = document.querySelector(".restartScore");
+var win;
 
 buttonStart.addEventListener('click',function(){container.style.display = "block";
                                 info.style.display = "block";
                                 buttonStart.style.display = "none";
                                 var topText = document.querySelector(".topText");
                                 topText.textContent = "The game is on!"
-                                // topText.style.fontSize = "30px";
                                 
                                  result = document.createElement("p");
                                 document.body.appendChild(result);
@@ -29,43 +27,37 @@ buttonStart.addEventListener('click',function(){container.style.display = "block
                                  result.innerHTML = "Current result: <br> 0 - 0"
                                 })
 
-if(count%2==0){ output1.innerHTML = "Cross starts!";}
-else{ output1.innerHTML = "Circle starts!";}
-//console.log(count);
+if(count%2==0){output1.innerHTML = "Cross starts!";}
+else{output1.innerHTML = "Circle starts!";}
 
 function start(param){
-
         var val = event.target;
-output2.innerHTML = "";
-    if(event.target.value == "clicked"){
-        //console.log("qwerty");         
+		output2.innerHTML = "";
+    if(val.value == "clicked" && count2 != 100){        
         cantClick(val);
-    } else{boxFunc(param);}
+    } else if(count2==100){end(); output2.innerHTML = ""}
+	else{boxFunc();}
         val.value = "clicked";
-//console.log(val.value);
-    
     winLogic();
-   // console.log(param);
-    //console.log(output3.innerHTML);
-    //console.log(count2 + " count2");
    
     end();
 
 }
 
-function boxFunc(paramBox){
-    count2 ++;
-   // console.log(count2);
+function boxFunc(paramTic){
+	count2 ++; 
     if(count%2==0){
 
         output1.innerHTML = "Now circle";
         event.target.style.background = 'url(img/x.png)';
         event.target.style.backgroundSize = '100%';
+		event.target.setAttribute('TicType','Cross');
     }else{
 
         output1.innerHTML = "Now cross";
             event.target.style.background = 'url(img/circle.png)';
         event.target.style.backgroundSize = '100%';
+		event.target.setAttribute('TicType','Circle');
     }
             count++
 }
@@ -77,35 +69,20 @@ function cantClick(param3){
 }
 
 function winLogic(){
-    
-    if(document.body.children[1].children[0].children[0].style.background == cross && document.body.children[1].children[0].children[1].style.background == cross && document.body.children[1].children[0].children[2].style.background == cross){output3.innerHTML = "Cross wins!";countCross ++; result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    else if(document.body.children[1].children[0].children[0].style.background == circle && document.body.children[1].children[0].children[1].style.background == circle && document.body.children[1].children[0].children[2].style.background == circle){output3.innerHTML = "Circle wins!";countCircle ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    
-    if(document.body.children[1].children[1].children[0].style.background == cross && document.body.children[1].children[1].children[1].style.background == cross && document.body.children[1].children[1].children[2].style.background == cross){output3.innerHTML = "Cross wins!";countCross ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    else if(document.body.children[1].children[1].children[0].style.background == circle && document.body.children[1].children[1].children[1].style.background == circle && document.body.children[1].children[1].children[2].style.background == circle){output3.innerHTML = "Circle wins!";countCircle ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    
-    
-    if(document.body.children[1].children[2].children[0].style.background == cross && document.body.children[1].children[2].children[1].style.background == cross && document.body.children[1].children[2].children[2].style.background == cross){output3.innerHTML = "Cross wins!";countCross ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    else if(document.body.children[1].children[2].children[0].style.background == circle && document.body.children[1].children[2].children[1].style.background == circle && document.body.children[1].children[2].children[2].style.background == circle){output3.innerHTML = "Circle wins!";countCircle ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    
-    
-    if(document.body.children[1].children[0].children[0].style.background == cross && document.body.children[1].children[1].children[0].style.background == cross && document.body.children[1].children[2].children[0].style.background == cross){output3.innerHTML = "Cross wins!";countCross ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    else if(document.body.children[1].children[0].children[0].style.background == circle && document.body.children[1].children[1].children[0].style.background == circle && document.body.children[1].children[2].children[0].style.background == circle){output3.innerHTML = "Circle wins!";countCircle ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    
-     if(document.body.children[1].children[0].children[1].style.background == cross && document.body.children[1].children[1].children[1].style.background == cross && document.body.children[1].children[2].children[1].style.background == cross){output3.innerHTML = "Cross wins!";countCross ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    else if(document.body.children[1].children[0].children[1].style.background == circle && document.body.children[1].children[1].children[1].style.background == circle && document.body.children[1].children[2].children[1].style.background == circle){output3.innerHTML = "Circle wins!";countCircle ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    
-     if(document.body.children[1].children[0].children[2].style.background == cross && document.body.children[1].children[1].children[2].style.background == cross && document.body.children[1].children[2].children[2].style.background == cross){output3.innerHTML = "Cross wins!";countCross ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    else if(document.body.children[1].children[0].children[2].style.background == circle && document.body.children[1].children[1].children[2].style.background == circle && document.body.children[1].children[2].children[2].style.background == circle){output3.innerHTML = "Circle wins!";countCircle ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    
-     if(document.body.children[1].children[0].children[0].style.background == cross && document.body.children[1].children[1].children[1].style.background == cross && document.body.children[1].children[2].children[2].style.background == cross){output3.innerHTML = "Cross wins!";countCross ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    else if(document.body.children[1].children[0].children[0].style.background == circle && document.body.children[1].children[1].children[1].style.background == circle && document.body.children[1].children[2].children[2].style.background == circle){output3.innerHTML = "Circle wins!";countCircle ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    
-    if(document.body.children[1].children[0].children[2].style.background == cross && document.body.children[1].children[1].children[1].style.background == cross && document.body.children[1].children[2].children[0].style.background == cross){output3.innerHTML = "Cross wins!";countCross ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-    else if(document.body.children[1].children[0].children[2].style.background == circle && document.body.children[1].children[1].children[1].style.background == circle && document.body.children[1].children[2].children[0].style.background == circle){output3.innerHTML = "Circle wins!";countCircle ++;result.innerHTML = "Current result: <br> " + countCross + " - " + countCircle;count2=100;}
-  drawCheck();
-    output1Canc();
-    //console.log(count2 + " from Log");
+		var arr=[];
+		boxCou.forEach(function(x){arr.push(x.getAttribute('TicType'))})
+	 for(var q=0;q<3;q++){if(arr[q]==arr[q+3] && arr[q]==arr[q+6] && arr[q]!=""){count2=100;output3.innerHTML = arr[q] +" wins!"; win = arr[q];}}
+	 for(var q=0;q<7;q+=3){if(arr[q]==arr[q+1] && arr[q]==arr[q+2] && arr[q]!=""){output3.innerHTML = arr[q] +" wins!";count2=100;win = arr[q]}}
+	 if(arr[2]==arr[4] && arr[2]==arr[6] && arr[2]!=""){output3.innerHTML = arr[2] +" wins!";count2=100; win = arr[2]}
+	 if(arr[0]==arr[4] && arr[0]==arr[8] && arr[0]!=""){output3.innerHTML = arr[0] +" wins!";count2=100;win=arr[0]}
+
+	if(win=='Cross'){countCross++}
+	else if(win=='Circle'){countCircle++}
+
+		  result.innerHTML ='Current result: <br>' + countCross + ' - ' + countCircle;
+		  
+	  drawCheck();
+		output1Canc();
 }
 
 function output1Canc(){
@@ -119,11 +96,9 @@ function drawCheck(){
     }
 }
 
-function end(param2){
+function end(){
     if(count2==100){
-    boxCou.forEach(z => z.onclick = function(){output1.innerHTML = "Game is over now, you can't click anymore!";}
-    )
-   // console.log("no pass!")
+    boxCou.forEach(z => z.onclick=function(){output1.innerHTML = "Game is over now, you can't click anymore!"})
     }
 }
 restart.addEventListener('click',restartFunc);
@@ -132,25 +107,21 @@ function restartFunc(){
     boxCou.forEach(m =>
     (m.style.background = "bisque",
         m.value = null
-       // console.log(boxCou.value);
 	))
     output3.innerHTML = "";
-    count2 = 0;
     output2.innerHTML = "";
-output1.innerHTML = "";
-       // console.log(output3.innerHTML);
-	boxCou.forEach(z => z.onclick = start) //tutaj onclick specjalnie, bo po użyciu addEventListener, 'restart' nie działa poprawnie (można klikać pola nawet po zakończeniu gry)
-	
-	
-    //console.log(count2);
+	output1.innerHTML = "";
+	win="";
+	boxCou.forEach(z => z.onclick = start)
+	boxCou.forEach(function(x){x.setAttribute('TicType','')})
 
     if(count%2==0){ output1.innerHTML = "Cross starts!";}
 else{ output1.innerHTML = "Circle starts!";}
-    
+   count2=0; 
 }
 
 resScore.onclick = function(){
-    countCross = 0;
-    countCircle = 0;
+    countCross=0;
+	countCircle = 0;
    result.innerHTML = "Current result: <br> 0 - 0"
 }
