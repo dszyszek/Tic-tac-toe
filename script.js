@@ -18,36 +18,37 @@ const game = {
 	val: "",
 	funcEnd : function(){game.output1.innerHTML = "Game is over now, you can't click anymore!"},
 
-	buttonStartF: function(){this.buttonStart.addEventListener('click',function(){game.container.style.display= "block";
-                                game.info.style.display = "block";
-                                game.buttonStart.style.display = "none";
+	buttonStartF: function(){this.buttonStart.addEventListener('click',this.main.bind(game))},
+	
+	main:         function(){
+								this.container.style.display= "block";
+                                this.info.style.display = "block";
+                                this.buttonStart.style.display = "none";
                                 const topText = document.querySelector("#topText");
                                 topText.textContent = "The game is on!"
-                             
-                                game.result = document.createElement("p");
-                                document.body.appendChild(game.result);
-                                game.top1.insertBefore(game.result,game.top1.lastChild.nextSibling);
-                                
-                                 game.result.innerHTML = "Current result: <br> 0 - 0"
-                                })},
+                                this.result = document.createElement("p");
+                                document.body.appendChild(this.result);
+                                this.top1.insertBefore(this.result,this.top1.lastChild.nextSibling);
+                                 this.result.innerHTML = "Current result: <br> 0 - 0"
+                                },
 	start: 	function(){		
-						game.clickLogic();
-						game.end();
+						this.clickLogic();
+						this.end();
 						},
 						
 	clickLogic : function(){
-							game.val = event.target;
-							game.output2.innerHTML = "";
-							if(game.val.value == "clicked" && game.count2 != 100){        
-								game.cantClick(game.val);
+							this.val = event.target;
+							this.output2.innerHTML = "";
+							if(this.val.value == "clicked" && this.count2 != 100){        
+								this.cantClick(this.val);
 							} 
-							else if(game.count2==100){game.end(); game.output2.innerHTML = ""}
-							else{game.boxFunc(); game.winLogic()}
-							game.val.value = "clicked";
+							else if(this.count2==100){this.end(); this.output2.innerHTML = ""}
+							else{this.boxFunc(); this.winLogic()}
+							this.val.value = "clicked";
 							},
 						
 	startType: function(){if(this.count%2==0){this.output1.innerHTML = "Cross starts!";}
-							else{game.output1.innerHTML = "Circle starts!";}
+							else{this.output1.innerHTML = "Circle starts!"}
 						 },
 	boxFunc:	function(paramTic){
 								this.count2 ++; 
@@ -57,7 +58,6 @@ const game = {
 									event.target.style.backgroundSize = '100%';
 									event.target.setAttribute('TicType','Cross');
 								}else{
-
 									this.output1.innerHTML = "Now cross";
 									event.target.style.background = 'url(img/circle.png)';
 									event.target.style.backgroundSize = '100%';
@@ -66,7 +66,6 @@ const game = {
 										this.count++
 							},
 	cantClick: function(param3){
-
 								if(param3.value != "clicked"){return boxFunc()}
 								else{this.output2.innerHTML = "You cant click the same box twice";}
 								},					
@@ -81,8 +80,7 @@ const game = {
 						 if(this.win=='Cross'){this.countCross++}
 						 else if(this.win=='Circle'){this.countCircle++}
 						 
-						 game.result.innerHTML ='Current result: <br>' + this.countCross + ' - ' + this.countCircle;
-					     
+						 this.result.innerHTML ='Current result: <br>' + this.countCross + ' - ' + this.countCircle;
 						 this.drawCheck();
 						 this.output1Canc();
 						},
@@ -93,38 +91,37 @@ const game = {
 							if(this.output3.innerHTML != "Cross wins!" && this.output3.innerHTML != "Circle wins!" && this.count2 == "9"){
 							this.output3.innerHTML = "Draw";
 							this.count2 = 0;
-														 }
+												}
 							},
 	end:        function(){
-							if(game.count2==100 && game.win != 'false'){
-							game.boxCou.forEach(z => z.addEventListener('click',game.funcEnd))
-											}
+							if(this.count2==100 && this.win != 'false'){
+							this.boxCou.forEach(z => z.addEventListener('click',this.funcEnd))
+								}
 						   },
-	restartB:   function(){this.restart.addEventListener('click',this.restartFunc)},						
+	restartB:   function(){this.restart.addEventListener('click',this.restartFunc.bind(game))},						
 	restartFunc: function(){
-							game.boxCou.forEach(x => x.removeEventListener('click',game.funcEnd));
-							game.boxCou.forEach(m =>
+							this.boxCou.forEach(x => x.removeEventListener('click',this.funcEnd));
+							this.boxCou.forEach(m =>
 							(m.style.background = "bisque",
 								m.value = null
 							))
-							game.output3.innerHTML = "";
-							game.output2.innerHTML = "";
-							game.output1.innerHTML = "";
-							game.win="";
-							game.boxCou.forEach(function(x){x.setAttribute('TicType','')})
-							if(game.count%2==0){game.output1.innerHTML = "Cross starts!";}
-							else{game.output1.innerHTML = "Circle starts!";}
-						    game.count2=0; 
+							this.output3.innerHTML = "";
+							this.output2.innerHTML = "";
+							this.output1.innerHTML = "";
+							this.win="";
+							this.boxCou.forEach(function(x){x.setAttribute('TicType','')})
+							if(this.count%2==0){this.output1.innerHTML = "Cross starts!";}
+							else{this.output1.innerHTML = "Circle starts!";}
+						    this.count2=0; 
 							},
-	restartS:   function(){this.resScore.addEventListener('click',function(){
-							game.countCross=0;
-							game.countCircle = 0;
-						   game.result.innerHTML = "Current result: <br> 0 - 0"
-																		})
+	restartS:   function(){
+							this.countCross=0;
+							this.countCircle = 0;
+						   this.result.innerHTML = "Current result: <br> 0 - 0";									
 						   },
 	}
 	game.buttonStartF();
 	game.boxCou.forEach(x=> x.addEventListener('click',function(){game.start()}));
 	game.startType();
 	game.restartB();
-	game.resScore.addEventListener('click',game.restartS());
+	game.resScore.addEventListener('click',game.restartS.bind(game));
